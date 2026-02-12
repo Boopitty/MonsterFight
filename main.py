@@ -3,9 +3,6 @@ from monster import Dragon, Golem, Unicorn, Automaton, Slime, Phoenix
 
 print("Hello, Monster Fighter!")
 
-# ask for user name
-name = input("What is your name? ")
-print(f"Welcome, {name}! Its time to choose your monsters!")
 # delay each line for 2 seconds
 time.sleep(2)
 print("Before you can start monster fighting, you need some monsters!")
@@ -53,3 +50,22 @@ while len(player_monsters) < 3:
 print("Great! The monsters you have chosen are:")
 for monster in player_monsters:
     print(f"- {monster.name}")
+
+active_friendly = player_monsters[0]
+active_enemy = player_monsters[1]
+
+time.sleep(2)
+print("Now that you have your monsters, you can start battling!")
+time.sleep(2)
+print(f"For now, lets have your first monster, the {active_friendly.name}, attack the second monster, the {active_enemy.name}.")
+time.sleep(2)
+
+while active_friendly.is_alive() and active_enemy.is_alive():
+    active_friendly.attack(active_enemy)
+    if not active_enemy.is_alive():
+        print(f"{active_enemy.name} has been defeated!")
+        break
+    if not active_friendly.is_alive():
+        print(f"{active_friendly.name} has been defeated!")
+        break
+print("Thanks for playing Monster Fighter! More features will be added soon!")
