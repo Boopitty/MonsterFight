@@ -4,10 +4,18 @@ class Monster():
 
     def __init__(self, name, health, durability, spirit, speed):
         self.name = name
+        self.base_health = health
         self.health = health
+
+        self.base_durability = durability
         self.durability = durability
+
+        self.base_spirit = spirit
         self.spirit = spirit
+
+        self.base_speed = speed
         self.speed = speed
+
         self.alive = True
         self.abilities = []
 
@@ -18,19 +26,26 @@ class Monster():
         for i, ability in enumerate(self.abilities):
             print(f"  {i + 1}. {ability.name}")
         
-        choice = input("Choose an ability to use (enter the number): ")
-        if choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
-            ability = self.abilities[int(choice) - 1]
-            print(f"{self.name} uses {ability.name}!")
-            self.deal_damage(ability, target)
-        else:
-            print("Invalid choice. No ability used.")
-        return
+        # Get user input for which ability to use
+        selecting = True
+        while selecting:
+            choice = input("Choose an ability to use (enter the number): ")
+            if choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
+                # Get the ability and use it on the target
+                ability = self.abilities[int(choice) - 1]
+                print(f"{self.name} uses {ability.name}!")
+                self.deal_damage(ability, target)
+                selecting = False
+            else:
+                choice = input("Invalid choice. Please enter a valid ability number: ")
     
     def get_ability(self, index):
         if 0 <= index < len(self.abilities):
             return self.abilities[index]
         return None
+    
+    def print_summary(self):
+        print(f"{self.summary}")
     
     def deal_damage(self, ability, target):
         # Damage calculation can be more complex, but for now it's just the attack stat
@@ -47,10 +62,50 @@ class Monster():
         
         # Check if the monster is still alive after taking damage
         if self.is_alive():
-            print(f"{self.name} has {self.health} health remaining.")
+            print(f"{self.name} has {self.health} hp remaining.")
         else:
             self.alive = False
             print(f"{self.name} has been defeated!")
+
+    def full_revive(self):
+        if not self.alive:
+            self.health = self.base_health
+            self.alive = True
+            print(f"{self.name} has been fully revived with {self.health} hp!")
+        else:
+            print(f"{self.name} is already alive and cannot be revived.")
+
+    def revive(self):
+        if not self.alive:
+            self.health = 1
+            self.alive = True
+            print(f"{self.name} has been revived with {self.health} hp!")
+        else:
+            print(f"{self.name} is already alive and cannot be revived.")
+
+    def full_heal(self):
+        if self.is_alive():
+            if self.health == self.base_health:
+                print(f"{self.name} is already at full health and cannot be healed.")
+                return
+            self.health = self.base_health
+            print(f"{self.name} has been fully healed!")
+        else:
+            print(f"{self.name} cannot be healed because it is defeated.")
+
+    def heal(self, amount):
+        if self.is_alive():
+            if self.health == self.base_health:
+                print(f"{self.name} is already at full health and cannot be healed.")
+                return
+            self.health += amount
+            amount_healed = amount
+            if self.health > self.base_health:
+                amount_healed = self.base_health - (self.health - amount)
+                self.health = self.base_health
+            print(f"{self.name} recovered {amount_healed} hp and now has {self.health} hp.")
+        else:
+            print(f"{self.name} cannot be healed because it is defeated.")
 
     def is_alive(self):
         return self.health > 0
