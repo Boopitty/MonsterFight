@@ -2,6 +2,8 @@
 
 This is my first personal project for boot.dev.
 This is a turn based monster fighting game similar to pokemon.
+activate virtual environment in terminal before playing:
+source venv/bin/activate
 
 # Monsters 
 The different monsters I intend on adding:

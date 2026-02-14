@@ -1,4 +1,5 @@
 from skills import FireBreath, ClawSwipe, TailWhip
+import random
 
 class Monster():
 
@@ -21,7 +22,6 @@ class Monster():
 
     def attack(self, target):
         # Select an ability to use and call other functions to calculate damage
-        print(f"{self.name} is attacking {target.name}!")
         print(f"{self.name} has the following abilities:")
         for i, ability in enumerate(self.abilities):
             print(f"  {i + 1}. {ability.name}")
@@ -29,7 +29,7 @@ class Monster():
         # Get user input for which ability to use
         selecting = True
         while selecting:
-            choice = input("Choose an ability to use (enter the number): ")
+            choice = input("Choose an ability to use (enter the number): ").strip()
             if choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
                 # Get the ability and use it on the target
                 ability = self.abilities[int(choice) - 1]
@@ -37,7 +37,12 @@ class Monster():
                 self.deal_damage(ability, target)
                 selecting = False
             else:
-                choice = input("Invalid choice. Please enter a valid ability number: ")
+                choice = input("Invalid input. Please enter a valid number: ")
+    
+    def random_attack(self, target):
+        ability = random.choice(self.abilities)
+        print(f"{self.name} uses {ability.name}!")
+        self.deal_damage(ability, target)
     
     def get_ability(self, index):
         if 0 <= index < len(self.abilities):
@@ -52,7 +57,7 @@ class Monster():
         damage = ability.power - target.durability
         if damage < 0:
             damage = 0
-        print(f"{self.name} attacks {target.name} for {damage} damage!")
+        print(f"{target.name} takes {damage} damage!")
         target.take_damage(damage)
 
     def take_damage(self, damage):
