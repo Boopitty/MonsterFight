@@ -57,11 +57,12 @@ class Monster():
 
     def take_damage(self, damage):
         self.health -= damage
-        if self.health < 0:
+        if self.health <= 0:
             self.health = 0
+            self.alive = False
         
         # Check if the monster is still alive after taking damage
-        if self.is_alive():
+        if self.alive:
             print(f"{self.name} has {self.health} hp remaining.")
         else:
             self.alive = False
@@ -84,7 +85,7 @@ class Monster():
             print(f"{self.name} is already alive and cannot be revived.")
 
     def full_heal(self):
-        if self.is_alive():
+        if self.alive:
             if self.health == self.base_health:
                 print(f"{self.name} is already at full health and cannot be healed.")
                 return
@@ -94,7 +95,7 @@ class Monster():
             print(f"{self.name} cannot be healed because it is defeated.")
 
     def heal(self, amount):
-        if self.is_alive():
+        if self.alive:
             if self.health == self.base_health:
                 print(f"{self.name} is already at full health and cannot be healed.")
                 return
@@ -106,9 +107,6 @@ class Monster():
             print(f"{self.name} recovered {amount_healed} hp and now has {self.health} hp.")
         else:
             print(f"{self.name} cannot be healed because it is defeated.")
-
-    def is_alive(self):
-        return self.health > 0
 
 class Dragon(Monster):
     def __init__(self):

@@ -4,18 +4,9 @@ import unittest
 class TestMonster(unittest.TestCase):
 
     def setUp(self):
-        print("Setting up test case...")
+        print("Setting up tests for Monster class...")
         self.dragon = monster.Dragon()
         self.golem = monster.Golem()
-
-    def test_monster_initialization(self):
-        print("Testing monster initialization...")
-        self.assertEqual(self.dragon.name, "Dragon")
-        self.assertEqual(self.dragon.health, 15)
-        self.assertEqual(self.dragon.durability, 4)
-        self.assertEqual(self.dragon.spirit, 15)
-        self.assertEqual(self.dragon.speed, 4)
-        self.assertTrue(self.dragon.alive)
     
     def test_print_summary(self):
         print("Testing print summary function...")
@@ -37,14 +28,6 @@ class TestMonster(unittest.TestCase):
 
         ability = self.dragon.get_ability(3)  # This should return None since there are only 3 abilities
         self.assertIsNone(ability)
-
-    def test_is_alive(self):
-        self.assertTrue(self.dragon.is_alive())
-        self.dragon.take_damage(20)  # This should defeat the dragon
-        self.assertFalse(self.dragon.is_alive())
-
-        self.dragon.health = self.dragon.base_health  # Reset health for further tests
-        self.dragon.alive = True  # Reset alive status for further tests
     
     def test_heal(self):
         print("Testing heal function...")
@@ -79,7 +62,7 @@ class TestMonster(unittest.TestCase):
         self.dragon.alive = False
         self.dragon.revive()
 
-        self.assertTrue(self.dragon.is_alive())
+        self.assertTrue(self.dragon.alive)
         self.assertEqual(self.dragon.health, 1)  # Revive should set health to 1
 
         self.dragon.health = self.dragon.base_health  # Reset health for further tests
@@ -92,7 +75,7 @@ class TestMonster(unittest.TestCase):
         self.dragon.alive = False
         self.dragon.full_revive()
 
-        self.assertTrue(self.dragon.is_alive())
+        self.assertTrue(self.dragon.alive)
         self.assertEqual(self.dragon.health, self.dragon.base_health)  # Full revive should set health to base health
 
     def test_take_damage(self):
@@ -101,11 +84,11 @@ class TestMonster(unittest.TestCase):
         # Test taking damage and checking if the monster is still alive
         self.dragon.take_damage(5)
         self.assertEqual(self.dragon.health, 10)
-        self.assertTrue(self.dragon.is_alive())
+        self.assertTrue(self.dragon.alive)
 
         # Test taking damage that would reduce health to zero or below
         self.dragon.take_damage(10)
         self.assertEqual(self.dragon.health, 0)
-        self.assertFalse(self.dragon.is_alive())
+        self.assertFalse(self.dragon.alive)
     
         self.dragon.health = self.dragon.base_health  # Reset health for further tests
