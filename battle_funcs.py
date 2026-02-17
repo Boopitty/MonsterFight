@@ -125,8 +125,8 @@ def player_action(active_friendly, active_enemy, player_monsters):
         print(f"Your {active_friendly.name} is defeated and cannot take action!")
         return None
     
-    action = input("\nType in an action (attack, switch, surrender): ").strip().lower()
     while True:
+        action = input("\nType in an action (attack, switch, stats, surrender): ").strip().lower()
         match action:
             case "attack":
                 # player selects an ability to attack the enemy's active monster
@@ -143,6 +143,11 @@ def player_action(active_friendly, active_enemy, player_monsters):
                 print("Thanks for playing Monster Fight!")
                 exit()
                 return None
+            case "stats":
+                print(f"\n---- Your monster's stats: ----")
+                print_monster_current_stats(active_friendly)
+                print(f"\n---- Enemy monster's stats: ----")
+                print_monster_current_stats(active_enemy)
             case _:
                 print("Invalid action. Please type 'attack', 'switch', or 'surrender'.")
 

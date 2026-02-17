@@ -60,6 +60,10 @@ while True:
         time.sleep(2)
         active_enemy = battle_funcs.enemy_switch_active_monster(active_enemy, enemy_monsters)
     
+    # Cooldown reduction phase - reduce cooldowns for all skills of both active monsters
+    active_friendly.cooldown_abilities()
+    active_enemy.cooldown_abilities()
+    
     # Determine turn order based on speed and execute actions
     if active_friendly.speed > active_enemy.speed:
         result = battle_funcs.player_action(active_friendly, active_enemy, player_monsters)
