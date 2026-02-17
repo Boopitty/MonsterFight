@@ -59,6 +59,11 @@ class skill():
         
         
 ###### Attack skills ######
+class Tackle(skill):
+    def __init__(self):
+        super().__init__(name="Tackle", physical=True, power=5, cooldown=0)
+        self.SkillType = SkillType.ATTACK
+
 class FireBreath(skill):
     def __init__(self):
         super().__init__(name="Fire Breath", physical=False, power=10, cooldown=3)
@@ -66,7 +71,7 @@ class FireBreath(skill):
 
 class ClawSwipe(skill):
     def __init__(self):
-        super().__init__(name="Claw Swipe", physical=True, power=5, cooldown=1)
+        super().__init__(name="Claw Swipe", physical=True, power=6, cooldown=2)
         self.SkillType = SkillType.ATTACK
 
 class TailWhip(skill):
@@ -79,10 +84,14 @@ class MagicBolt(skill):
         super().__init__(name="Magic Bolt", physical=False, power=7, cooldown=2)
         self.SkillType = SkillType.ATTACK
 
-# skill to test 0 power and 0 cooldown
-class Tap(skill):
+class Slam(skill):
     def __init__(self):
-        super().__init__(name="Tap", physical=True, power=0, cooldown=0)
+        super().__init__(name="Slam", physical=True, power=8, cooldown=3)
+        self.SkillType = SkillType.ATTACK
+
+class Splat(skill):
+    def __init__(self):
+        super().__init__(name="Splat", physical=True, power=4, cooldown=0)
         self.SkillType = SkillType.ATTACK
 
 ###### Heal skills ######
@@ -125,4 +134,24 @@ class Overdrive(skill):
     def reduce_cooldown(self, user_monster):
         super().reduce_cooldown(user_monster)
         if self.current_cooldown == self.cooldown - self.duration:
+            self.end_utility(user_monster)
+
+class Barrier(skill):
+    def __init__(self):
+        super().__init__(name="Barrier", physical=False, power=0, cooldown=5)
+        self.SkillType = SkillType.UTILITY
+    
+    def use_utility(self, user, target):
+        print(f"{user.name} uses Barrier! Durability increased for 3 turns!")
+        user.durability *= 1.5
+        user.spirit *= 1.5
+    
+    def end_utility(self, user):
+        print(f"{user.name}'s Barrier has ended. Durability returned to normal.")
+        user.durability /= 1.5
+        user.spirit /= 1.5
+    
+    def reduce_cooldown(self, user_monster):
+        super().reduce_cooldown(user_monster)
+        if self.current_cooldown == self.cooldown - 3:
             self.end_utility(user_monster)

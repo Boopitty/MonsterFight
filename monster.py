@@ -1,5 +1,5 @@
 from unittest import case
-from skills import FireBreath, ClawSwipe, Heal, TailWhip, Tap, Overdrive
+from skills import FireBreath, ClawSwipe, TailWhip, MagicBolt, Slam, Splat, Tackle, Heal, Overdrive, Barrier
 import random
 
 class Monster():
@@ -139,34 +139,34 @@ class Dragon(Monster):
     def __init__(self):
         super().__init__(name="Dragon", health=15, durability=4, spirit=15, speed=4)
         self.summary = "A powerful and durable monster, but not very fast."
-        self.abilities = [FireBreath(), ClawSwipe(), TailWhip()]
+        self.abilities = [Tackle(), FireBreath(), ClawSwipe(), TailWhip()]
 
 class Golem(Monster):
     def __init__(self):
         super().__init__(name="Golem", health=20, durability=4, spirit=10, speed=3)
         self.summary = "A very durable monster, but not very fast."
-        self.abilities = [ClawSwipe(), TailWhip()]
+        self.abilities = [Tackle(), Slam(), Barrier()]
 
 class Unicorn(Monster):
     def __init__(self):
         super().__init__(name="Unicorn", health=15, durability=5, spirit=10, speed=8)
         self.summary = "A fast and agile monster with moderate durability. Has a special ability to heal itself."
-        self.abilities = [ClawSwipe(), TailWhip(), Heal()]
+        self.abilities = [Tackle(), Slam(), TailWhip(), Heal()]
 
 class Automaton(Monster):
     def __init__(self):
         super().__init__(name="Automaton", health=13, durability=5, spirit=5, speed=6)
         self.summary = "A balanced monster with moderate stats in all areas. Can temporarily overcharge itself."
-        self.abilities = [ClawSwipe(), TailWhip(), Overdrive()]
+        self.abilities = [Tackle(), MagicBolt(), Overdrive()]
 
 class Slime(Monster):
     def __init__(self):
         super().__init__(name="Slime", health=35, durability=1, spirit=1, speed=1)
         self.summary = "Low offence, durability and speed. However, it can regenerate its already massive health pool."
-        self.abilities = [Tap()]
+        self.abilities = [Splat(), Heal()]
 
 class Phoenix(Monster):
     def __init__(self):
         super().__init__(name="Phoenix", health=10, durability=2, spirit=7, speed=10)
         self.summary = "A very fast monster with low health and durability. Can resurrect itself once per battle."
-        self.abilities = [ClawSwipe(), TailWhip()]
+        self.abilities = [Tackle(), ClawSwipe(), FireBreath()]
