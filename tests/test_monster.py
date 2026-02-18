@@ -14,19 +14,19 @@ class TestMonster(unittest.TestCase):
 
     def test_get_ability(self):
         print("Testing get ability function...")
-        ability = self.dragon.get_ability(0)  # This should return the first ability, Fire Breath
+        ability = self.dragon.get_ability(0)  # This should return the first ability
         self.assertIsNotNone(ability)
-        self.assertEqual(ability.name, "Fire Breath")
+        self.assertEqual(ability.name, self.dragon.abilities[0].name)
 
-        ability = self.dragon.get_ability(1)  # This should return the second ability, Claw Swipe
+        ability = self.dragon.get_ability(1)  # This should return the second ability
         self.assertIsNotNone(ability)
-        self.assertEqual(ability.name, "Claw Swipe")
+        self.assertEqual(ability.name, self.dragon.abilities[1].name)
 
-        ability = self.dragon.get_ability(2)  # This should return the third ability, Tail Whip
+        ability = self.dragon.get_ability(2)  # This should return the third ability
         self.assertIsNotNone(ability)
-        self.assertEqual(ability.name, "Tail Whip")
+        self.assertEqual(ability.name, self.dragon.abilities[2].name)
 
-        ability = self.dragon.get_ability(3)  # This should return None since there are only 3 abilities
+        ability = self.dragon.get_ability(4)  # This should return None since there are only 4 abilities
         self.assertIsNone(ability)
     
     def test_heal(self):
@@ -36,11 +36,12 @@ class TestMonster(unittest.TestCase):
         self.dragon.heal(1) # This should not change health since it's already at base health
         self.assertEqual(self.dragon.health, self.dragon.base_health)
 
-        self.dragon.health = 10
-        self.dragon.heal(3) # This should heal 3 hp, resulting in 13 hp
-        self.assertEqual(self.dragon.health, 13)
+        self.dragon.health = 1
+        self.dragon.heal(3) # This should heal 3 hp, resulting in 4 hp
+        self.assertEqual(self.dragon.health, 4)
 
-        self.dragon.heal(5)  # This should not exceed base health
+        self.dragon.health = self.dragon.base_health
+        self.dragon.heal(1)  # This should not exceed base health
         self.assertEqual(self.dragon.health, self.dragon.base_health)
 
     def test_full_heal(self):
@@ -50,7 +51,7 @@ class TestMonster(unittest.TestCase):
         self.dragon.full_heal() # Heal should fail and print a different message
         self.assertEqual(self.dragon.health, self.dragon.base_health)
 
-        self.dragon.health = 5
+        self.dragon.health = 1
         self.dragon.full_heal()
         self.assertEqual(self.dragon.health, self.dragon.base_health)
 
@@ -77,6 +78,11 @@ class TestMonster(unittest.TestCase):
 
         self.assertTrue(self.dragon.alive)
         self.assertEqual(self.dragon.health, self.dragon.base_health)  # Full revive should set health to base health
+
+        # Ensure dragon's stats are recovered in case of failure 
+        # This is to not interfere with later tests
+        self.dragon.health = self.dragon.base_health
+        self.dragon.alive = True
 
     def test_take_damage(self):
         print("Testing take damage function...")

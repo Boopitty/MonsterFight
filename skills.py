@@ -30,18 +30,20 @@ class skill():
             print(f"{user_name} uses {self.name}!")
         return True
     
-    def use(self, user, target=None):
-        if self.current_cooldown > 0:
-            print(f"{self.name} is on cooldown for {self.current_cooldown} more turns.")
-            return -1
+    def use(self, user=None, target=None):
         self.start_cooldown()
 
         match self.SkillType.name:
             case "ATTACK":
+                # Calculate damage if the skill is an attack
                 damage = self.get_damage(target)
+
             case "HEAL":
+                # The healing amount of a move is its power
                 return self.power
+            
             case "UTILITY":
+                # Apply the utiliy move's unique effect
                 self.use_utility(user, target)
                 return 0
         return damage
@@ -53,7 +55,7 @@ class skill():
             damage = self.power - target.spirit
         return damage
 
-    def use_utility(self, user, target):
+    def use_utility(self, user, target=None):
         # Placeholder for utility skill effects 
         return 0
         
@@ -99,14 +101,6 @@ class Heal(skill):
     def __init__(self):
         super().__init__(name="Heal", physical=False, power=5, cooldown=3)
         self.SkillType = SkillType.HEAL
-    
-    def use(self, user):
-        if not self.is_available(user.name):
-            print(f"{self.name} is on cooldown for {self.current_cooldown} more turns.")
-            return False
-
-        self.start_cooldown()
-        return self.power
 
 ###### Utility skills ######
 class Overdrive(skill):
@@ -118,21 +112,23 @@ class Overdrive(skill):
     def use_utility(self, user, target):
         print(f"{user.name} is in Overdrive! Speed and power increased for 3 turns!")
         
-        user.speed *= 1.5
+        user.speed += 3
         for ability in user.abilities:
             if ability.SkillType == SkillType.ATTACK:
-                ability.power *= 1.5
+                ability.power += 3
     
     def end_utility(self, user):
         print(f"{user.name}'s Overdrive has ended. Speed and power returned to normal.")
 
-        user.speed /= 1.5
+        user.speed -= 3
         for ability in user.abilities:
             if ability.SkillType == SkillType.ATTACK:
-                ability.power /= 1.5
+                ability.power -= 3
         
     def reduce_cooldown(self, user_monster):
         super().reduce_cooldown(user_monster)
+        
+        # The duration of a utility move's effect is tied to it's cooldown
         if self.current_cooldown == self.cooldown - self.duration:
             self.end_utility(user_monster)
 
@@ -143,13 +139,13 @@ class Barrier(skill):
     
     def use_utility(self, user, target):
         print(f"{user.name} uses Barrier! Durability increased for 3 turns!")
-        user.durability *= 1.5
-        user.spirit *= 1.5
+        user.durability += 3
+        user.spirit += 3
     
     def end_utility(self, user):
         print(f"{user.name}'s Barrier has ended. Durability returned to normal.")
-        user.durability /= 1.5
-        user.spirit /= 1.5
+        user.durability -= 3
+        user.spirit -= 3
     
     def reduce_cooldown(self, user_monster):
         super().reduce_cooldown(user_monster)

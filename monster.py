@@ -30,19 +30,22 @@ class Monster():
         # Get user input for which ability to use
         while True:
             choice = input("Choose an ability to use (enter the number): ").strip()
+
             if choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
                 # Get the ability and use it on the target
                 ability = self.abilities[int(choice) - 1]
+
                 if ability.is_available(self.name):
                     match ability.SkillType.name:
+
                         case "ATTACK":
                             damage = ability.use(user = self, target = target)
-                            if damage >= 0:
-                                target.take_damage(damage)
+                            target.take_damage(damage)
+
                         case "HEAL":
                             heal_amount = ability.use(user = self)
-                            if heal_amount > 0:
-                                self.heal(heal_amount)
+                            self.heal(heal_amount)
+
                         case "UTILITY":
                             # Utility skills do not affect target health
                             ability.use(user = self, target = target)
@@ -53,17 +56,22 @@ class Monster():
     
     def random_attack(self, target):
         while True:
+            # Pick a random attack.
             ability = random.choice(self.abilities)
+
+            # If the attack chosen is on cooldown, pick again until one with no cooldown if found
+            # All monsters should have a move with no cooldown to prevent infinite looping.
             if ability.is_available(self.name):
                 match ability.SkillType.name:
                     case "ATTACK":
                         damage = ability.use(user = self, target = target)
                         if damage >= 0:
                             target.take_damage(damage)
+
                     case "HEAL":
                         heal_amount = ability.use(user = self)
-                        if heal_amount > 0:
-                            self.heal(heal_amount)
+                        self.heal(heal_amount)
+
                     case "UTILITY":
                         # Utility skills do not affect target health
                         ability.use(user = self, target = target)
@@ -78,12 +86,17 @@ class Monster():
         print(f"\n{self.summary}\n")
 
     def take_damage(self, damage):
+        if damage == 0:
+            print(f"{self.name} took no damage!")
+            return
+        
+        print(f"{self.name} takes {damage} damage!")
         self.health -= damage
+
         if self.health <= 0:
             self.health = 0
             self.alive = False
 
-        print(f"{self.name} takes {damage} damage!")
         # Check if the monster is still alive after taking damage
         if self.alive:
             print(f"{self.name} has {self.health} hp remaining.")
@@ -118,28 +131,42 @@ class Monster():
             print(f"{self.name} cannot be healed because it is defeated.")
 
     def heal(self, amount):
-        if self.alive:
+        
+        if self.alive:   
             if self.health == self.base_health:
                 print(f"{self.name} is already at full health and cannot be healed.")
                 return
+            
+            if amount <= 0:
+                print(f"{self.name} recovers no health.")
+                return
+            
             self.health += amount
             amount_healed = amount
+
             if self.health > self.base_health:
                 amount_healed = self.base_health - (self.health - amount)
                 self.health = self.base_health
-            print(f"{self.name} recovered {amount_healed} hp and now has {self.health} hp.")
+
+            print(f"{self.name} recovered {amount_healed} hp and now has {self.health} hp!")
+
         else:
             print(f"{self.name} cannot be healed because it is defeated.")
         
     def cooldown_abilities(self):
+        # Reduce cooldown of all moves
         for ability in self.abilities:
-            ability.reduce_cooldown(self)
-
+            # Pass self as arg if the move is a utiliy
+            if ability.SkillType == "Utility":
+                ability.reduce_cooldown(self)
+            else:
+                ability.reduce_cooldown()
+            
 class Dragon(Monster):
     def __init__(self):
         super().__init__(name="Dragon", health=15, durability=4, spirit=15, speed=4)
         self.summary = "A powerful and durable monster, but not very fast."
-        self.abilities = [Tackle(), FireBreath(), ClawSwipe(), TailWhip()]
+        self.abilities = [Tackle(), ClawSwipe(), TailWhip(), FireBreath()]
 
 class Golem(Monster):
     def __init__(self):
