@@ -57,6 +57,8 @@ class skill():
             damage = self.power - target.spirit
             if damage <= 0:
                 print(f"{target.name}'s spirit is too high!")
+        if damage > 0:
+            print(f"The attack is successful!")
         return damage
 
     def use_utility(self, user, target=None):
@@ -114,7 +116,7 @@ class Overdrive(skill):
         self.duration = 3
 
     def use_utility(self, user, target):
-        print(f"{user.name} is in Overdrive! Speed and power increased for 3 turns!")
+        print(f"{user.name}'s speed and power increased for 3 turns!")
         
         user.speed += 3
         for ability in user.abilities:
@@ -143,12 +145,12 @@ class Barrier(skill):
         self.duration = 3
     
     def use_utility(self, user, target):
-        print(f"{user.name} uses Barrier! Durability increased for 3 turns!")
+        print(f"{user.name}'s durability increased for 3 turns!")
         user.durability += 3
         user.spirit += 3
     
     def end_utility(self, user):
-        print(f"{user.name}'s Barrier has ended. Durability returned to normal.")
+        print(f"{user.name}'s barrier has ended. Durability returned to normal.")
         user.durability -= 3
         user.spirit -= 3
     

@@ -73,6 +73,7 @@ class Monster():
                 match ability.SkillType.name:
                     case "ATTACK":
                         damage = ability.use(user = self, target = target)
+                        time.sleep(2)
                         target.take_damage(damage)
 
                     case "HEAL":

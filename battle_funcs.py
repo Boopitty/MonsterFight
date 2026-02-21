@@ -81,6 +81,7 @@ def enemy_monster_selection(monster_list):
                 case "Phoenix":
                     monster_instance = Phoenix()
             monster_list.append(monster_instance)
+    time.sleep(2)
     
     print("The enemy has chosen the following monsters:")
     for monster in monster_list:
