@@ -123,6 +123,7 @@ def enemy_switch_active_monster(current_active, monster_team):
 def player_action(active_friendly, active_enemy, player_monsters):
     if not active_friendly.alive:
         print(f"Your {active_friendly.name} is defeated and cannot take action!")
+        time.sleep(2)
         return None
     
     while True:
@@ -154,6 +155,7 @@ def player_action(active_friendly, active_enemy, player_monsters):
 def enemy_action(active_enemy, active_friendly):
     if not active_enemy.alive:
         print(f"The enemy's {active_enemy.name} is defeated and cannot take action!")
+        time.sleep(2)
         return
     
     print("\nThe enemy is taking their turn...")

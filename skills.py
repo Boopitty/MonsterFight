@@ -36,7 +36,7 @@ class skill():
         match self.SkillType.name:
             case "ATTACK":
                 # Calculate damage if the skill is an attack
-                damage = self.get_damage(target)
+                return self.get_damage(target)
 
             case "HEAL":
                 # The healing amount of a move is its power
@@ -45,14 +45,18 @@ class skill():
             case "UTILITY":
                 # Apply the utiliy move's unique effect
                 self.use_utility(user, target)
-                return 0
-        return damage
+                return
+        
 
     def get_damage(self, target):
         if self.physical:
             damage = self.power - target.durability
+            if damage <= 0:
+                print(f"{target.name}'s durability is too high!")
         else:
             damage = self.power - target.spirit
+            if damage <= 0:
+                print(f"{target.name}'s spirit is too high!")
         return damage
 
     def use_utility(self, user, target=None):
@@ -125,17 +129,18 @@ class Overdrive(skill):
             if ability.SkillType == SkillType.ATTACK:
                 ability.power -= 3
         
-    def reduce_cooldown(self, user_monster):
-        super().reduce_cooldown(user_monster)
+    def reduce_cooldown(self, user):
+        super().reduce_cooldown()
         
         # The duration of a utility move's effect is tied to it's cooldown
         if self.current_cooldown == self.cooldown - self.duration:
-            self.end_utility(user_monster)
+            self.end_utility(user)
 
 class Barrier(skill):
     def __init__(self):
         super().__init__(name="Barrier", physical=False, power=0, cooldown=5)
         self.SkillType = SkillType.UTILITY
+        self.duration = 3
     
     def use_utility(self, user, target):
         print(f"{user.name} uses Barrier! Durability increased for 3 turns!")
@@ -147,7 +152,7 @@ class Barrier(skill):
         user.durability -= 3
         user.spirit -= 3
     
-    def reduce_cooldown(self, user_monster):
-        super().reduce_cooldown(user_monster)
-        if self.current_cooldown == self.cooldown - 3:
-            self.end_utility(user_monster)
+    def reduce_cooldown(self, user):
+        super().reduce_cooldown()
+        if self.current_cooldown == self.cooldown - self.duration:
+            self.end_utility(user)

@@ -33,29 +33,33 @@ print("Now that you have your monsters, you can start battling!")
 time.sleep(2)
 print(f"Your active monster is {active_friendly.name}.\n"
       f"The enemy's active monster is {active_enemy.name}.")
+time.sleep(2)
 
 counter = 1
 # Battle loop - this will continue until one player's team is completely defeated
 while True:
     print(f"\n--- Round {counter} ---\n")
     counter += 1
+    time.sleep(2)
+
     # Check if the player's active monster is alive, if not, prompt to switch
     if not active_friendly.alive:
         if all(not monster.alive for monster in player_monsters):
             print("All your monsters have been defeated! You lose!")
+            time.sleep(2)
             break
 
-        time.sleep(2)
         print("Please choose a new active monster from your team:")
+        time.sleep(2)
         active_friendly = battle_funcs.player_switch_active_monster(active_friendly, player_monsters)
     
     # Check if the enemy's active monster is alive, if not, switch to a new one
     if not active_enemy.alive:
         if all(not monster.alive for monster in enemy_monsters):
             print("All enemy monsters have been defeated! You win!")
+            time.sleep(2)
             break
 
-        time.sleep(2)
         print("The enemy is choosing a new active monster...")
         time.sleep(2)
         active_enemy = battle_funcs.enemy_switch_active_monster(active_enemy, enemy_monsters)

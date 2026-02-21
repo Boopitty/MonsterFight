@@ -1,5 +1,5 @@
-from unittest import case
 from skills import FireBreath, ClawSwipe, TailWhip, MagicBolt, Slam, Splat, Tackle, Heal, Overdrive, Barrier
+import time
 import random
 
 class Monster():
@@ -36,19 +36,24 @@ class Monster():
                 ability = self.abilities[int(choice) - 1]
 
                 if ability.is_available(self.name):
+                    time.sleep(2)
                     match ability.SkillType.name:
 
                         case "ATTACK":
                             damage = ability.use(user = self, target = target)
+                            time.sleep(2)
                             target.take_damage(damage)
+                            time.sleep(2)
 
                         case "HEAL":
                             heal_amount = ability.use(user = self)
                             self.heal(heal_amount)
+                            time.sleep(2)
 
                         case "UTILITY":
                             # Utility skills do not affect target health
                             ability.use(user = self, target = target)
+                            time.sleep(2)
                     break
                 
             else:
@@ -61,20 +66,24 @@ class Monster():
 
             # If the attack chosen is on cooldown, pick again until one with no cooldown if found
             # All monsters should have a move with no cooldown to prevent infinite looping.
-            if ability.is_available(self.name):
+            if ability.is_available():
+                print(f"{self.name} uses {ability.name}!")
+                time.sleep(2)
+
                 match ability.SkillType.name:
                     case "ATTACK":
                         damage = ability.use(user = self, target = target)
-                        if damage >= 0:
-                            target.take_damage(damage)
+                        target.take_damage(damage)
 
                     case "HEAL":
                         heal_amount = ability.use(user = self)
                         self.heal(heal_amount)
+                        time.sleep(2)
 
                     case "UTILITY":
                         # Utility skills do not affect target health
                         ability.use(user = self, target = target)
+                        time.sleep(2)
                 break
     
     def get_ability(self, index):
@@ -86,11 +95,13 @@ class Monster():
         print(f"\n{self.summary}\n")
 
     def take_damage(self, damage):
-        if damage == 0:
+        if damage <= 0:
             print(f"{self.name} took no damage!")
+            time.sleep(2)
             return
         
         print(f"{self.name} takes {damage} damage!")
+        time.sleep(2)
         self.health -= damage
 
         if self.health <= 0:
@@ -103,6 +114,7 @@ class Monster():
         else:
             self.alive = False
             print(f"{self.name} has been defeated!")
+        time.sleep(2)
 
     def full_revive(self):
         if not self.alive:
@@ -156,27 +168,27 @@ class Monster():
     def cooldown_abilities(self):
         # Reduce cooldown of all moves
         for ability in self.abilities:
-            # Pass self as arg if the move is a utiliy
-            if ability.SkillType == "Utility":
+            # Pass self as arg if the move is a utility
+            if ability.SkillType.name == "UTILITY":
                 ability.reduce_cooldown(self)
             else:
                 ability.reduce_cooldown()
             
 class Dragon(Monster):
     def __init__(self):
-        super().__init__(name="Dragon", health=15, durability=4, spirit=15, speed=4)
+        super().__init__(name="Dragon", health=15, durability=6, spirit=6, speed=4)
         self.summary = "A powerful and durable monster, but not very fast."
         self.abilities = [Tackle(), ClawSwipe(), TailWhip(), FireBreath()]
 
 class Golem(Monster):
     def __init__(self):
-        super().__init__(name="Golem", health=20, durability=4, spirit=10, speed=3)
+        super().__init__(name="Golem", health=20, durability=7, spirit=4, speed=3)
         self.summary = "A very durable monster, but not very fast."
         self.abilities = [Tackle(), Slam(), Barrier()]
 
 class Unicorn(Monster):
     def __init__(self):
-        super().__init__(name="Unicorn", health=15, durability=5, spirit=10, speed=8)
+        super().__init__(name="Unicorn", health=15, durability=4, spirit=7, speed=8)
         self.summary = "A fast and agile monster with moderate durability. Has a special ability to heal itself."
         self.abilities = [Tackle(), Slam(), TailWhip(), Heal()]
 
