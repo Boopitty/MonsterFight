@@ -5,7 +5,6 @@ import battle_funcs
 # This function allows the player to select 3 monsters from the available list
 
 print("Hello, Monster Fighter!")
-
 time.sleep(2) # delay each line for 2 seconds
 print("Before you can start monster fighting, you need some monsters!")
 time.sleep(2)
@@ -15,7 +14,6 @@ time.sleep(2)
 player_monsters = []
 enemy_monsters = []
 
-# Monster selection phase for both player and enemy
 battle_funcs.player_monster_selection(player_monsters) # Player selects their monsters manually
 time.sleep(2)
 

@@ -18,6 +18,7 @@ After that, follow the prompts to choose your team and begin fighting!
 The enemy will pick a random team, and pick their attacks randomly, good luck!
 
 ## Monsters 
+### List of Monsters
 The different monsters I intend on adding with a short description:
 - Dragon (poweful monster, but slow with long cooldowns)
 - Golem (Great physical defence and endurance, but slow with lackluster offense)
@@ -26,13 +27,13 @@ The different monsters I intend on adding with a short description:
 - Slime (Doesn't hit hard, but its large health pool regenerates)
 - Phoenix (Fast and strong fire attacks. Fragile, but can revive once)
 
-### About stats
-HP: When a monster runs out, they die.
-Durability: Physical attacks have their power reduced by the defending monster's durability.
-Spirit: Magic attacks deal less damage based on the defending monster's spirit.
-Speed: The monster with higher speed goes first, however if you are tied, the turn order is randomized.
+### About Stats
+- HP: When a monster runs out, they die.
+- Durability: Reduces damage taken from physical attacks.
+- Spirit: Reduces damage taken from magic attacks.
+- Speed: The monster with higher speed acts first. If speed if tied, turn order is randomized.
 
-### About skills
+### About Skills
 Power: The amout of damage the attack will do. Will be reduced based off the defending monster's stats.
 Cooldown: The amount of turns until you can use a move again.
 Pyhsical/Magic: Determines if the attack will have it's damage reduced by durability or spirit.

@@ -27,7 +27,7 @@ def player_monster_selection(monster_list):
 
         choice = (input("Select a monster(Enter its number or 'i' for info): ")).strip()
         
-        # check if the input is a valid number
+        # If input if "i" print info for all available monsters
         if choice == "i":
             print("\nHere are the available monsters and their base stats:")
             for i, monster in enumerate(monsters):
@@ -46,11 +46,12 @@ def player_monster_selection(monster_list):
                         print_monster_info(Slime())
                     case "Phoenix":
                         print_monster_info(Phoenix())
-
+        
+        # Check if input is a number with a corresponding monster
         elif choice.isdigit() and 1 <= int(choice) <= len(monsters):
+            # Remove chosen monster from the list, and check if it has already been chosen
             monster_choice = monsters.pop(int(choice) - 1)
 
-            # check if the monster has already been chosen
             if monster_choice not in [monster.name for monster in monster_list]:
                 match monster_choice:
                     case "Dragon":
@@ -65,6 +66,7 @@ def player_monster_selection(monster_list):
                         monster_instance = Slime()
                     case "Phoenix":
                         monster_instance = Phoenix()
+                        
                 monster_list.append(monster_instance)
                 print(f"You have chosen {monster_choice}!")
 
