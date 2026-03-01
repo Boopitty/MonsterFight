@@ -2,19 +2,12 @@ from monster import Dragon, Golem, Unicorn, Automaton, Slime, Phoenix
 import random
 import time
 
-def list_all_monsters():
-    monsters = ["Dragon", "Golem", "Unicorn", "Automaton", "Slime", "Phoenix"]
-    print("Here are the available monsters:")
-
-    for i, monster in enumerate(monsters, 1):
-        print(f"{i}. {monster}")
-
-def print_monster_base_stats(monster):
-    print(f"{monster.name}'s stats:" \
-          f"\nHealth: {monster.base_health}" \
-          f"\nDurability: {monster.base_durability}" \
-          f"\nSpirit: {monster.base_spirit}" \
-          f"\nSpeed: {monster.base_speed}")
+def print_monster_info(monster):
+    print(f"  {monster.summary}" \
+          f"\n  Health: {monster.base_health}" \
+          f"\n  Durability: {monster.base_durability}" \
+          f"\n  Spirit: {monster.base_spirit}" \
+          f"\n  Speed: {monster.base_speed}")
 
 def print_monster_current_stats(monster):
     print(f"{monster.name}'s current stats:" \
@@ -27,11 +20,35 @@ def player_monster_selection(monster_list):
     monsters = ["Dragon", "Golem", "Unicorn", "Automaton", "Slime", "Phoenix"]
 
     while len(monster_list) < 3:
-        choice = (input("Select a monster(enter its Number): ")).strip()
+        # Print the list of available monsters for the player to choose from
+        print("\nAvailable monsters:")
+        for i, monster in enumerate(monsters):
+            print(f"{i + 1}. {monster}")
+
+        choice = (input("Select a monster(Enter its number or 'i' for info): ")).strip()
         
         # check if the input is a valid number
-        if choice.isdigit() and 1 <= int(choice) <= len(monsters):
-            monster_choice = monsters[int(choice) - 1]
+        if choice == "i":
+            print("\nHere are the available monsters and their base stats:")
+            for i, monster in enumerate(monsters):
+                print(f"\n{i + 1}. {monster}:")
+
+                match monster:
+                    case "Dragon":
+                        print_monster_info(Dragon())
+                    case "Golem":
+                        print_monster_info(Golem())
+                    case "Unicorn":
+                        print_monster_info(Unicorn())
+                    case "Automaton":
+                        print_monster_info(Automaton())
+                    case "Slime":
+                        print_monster_info(Slime())
+                    case "Phoenix":
+                        print_monster_info(Phoenix())
+
+        elif choice.isdigit() and 1 <= int(choice) <= len(monsters):
+            monster_choice = monsters.pop(int(choice) - 1)
 
             # check if the monster has already been chosen
             if monster_choice not in [monster.name for monster in monster_list]:
@@ -54,7 +71,7 @@ def player_monster_selection(monster_list):
             else:
                 print("You have already chosen that monster. Please choose a different one.")
         else:
-            print("Not a valid choice.")
+            print("Invalid input.")
 
     print("Great! The monsters you have chosen are:")
     for monster in monster_list:
@@ -127,31 +144,46 @@ def player_action(active_friendly, active_enemy, player_monsters):
         time.sleep(2)
         return None
     
+    print("\nIt's your turn!")
+    time.sleep(2)
+
     while True:
-        action = input("\nType in an action (attack, switch, stats, surrender): ").strip().lower()
-        match action:
-            case "attack":
-                # player selects an ability to attack the enemy's active monster
-                active_friendly.attack(active_enemy) 
-                return None
-            case "switch":
-                # player swaps their active monster with another monster in their team
-                active_friendly = player_switch_active_monster(active_friendly, player_monsters)
-                time.sleep(2)
-                return active_friendly
-            case "surrender":
-                print("You have surrendered! You lose!")
-                time.sleep(2)
-                print("Thanks for playing Monster Fight!")
-                exit()
-                return None
-            case "stats":
-                print(f"\n---- Your monster's stats: ----")
-                print_monster_current_stats(active_friendly)
-                print(f"\n---- Enemy monster's stats: ----")
-                print_monster_current_stats(active_enemy)
-            case _:
-                print("Invalid action. Please type 'attack', 'switch', or 'surrender'.")
+        print("\nWhat would you like to do?"\
+          "\n1. Attack"\
+          "\n2. Switch active monster"\
+          "\n3. View Stats"\
+          "\n4. Surrender")
+        action = input("\nType in an action(Type the number): ").strip().lower()
+
+        if action.isdigit():
+            match int(action):
+                case 1:
+                    # player selects an ability to attack the enemy's active monster
+                    active_friendly.attack(active_enemy) 
+                    return None
+                
+                case 2:
+                    # player swaps their active monster with another monster in their team
+                    active_friendly = player_switch_active_monster(active_friendly, player_monsters)
+                    time.sleep(2)
+                    return active_friendly
+                
+                case 3:
+                    print(f"\n---- Your monster's stats: ----")
+                    print_monster_current_stats(active_friendly)
+                    print(f"\n---- Enemy monster's stats: ----")
+                    print_monster_current_stats(active_enemy)
+
+                case 4:
+                    print("You have surrendered! You lose!")
+                    time.sleep(2)
+                    print("Thanks for playing Monster Fight!")
+                    exit()
+                    return None
+                
+                case _:
+                    print("Invalid number.")
+        print("Invalid input.")
 
 def enemy_action(active_enemy, active_friendly):
     if not active_enemy.alive:

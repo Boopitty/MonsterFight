@@ -29,9 +29,16 @@ class Monster():
         
         # Get user input for which ability to use
         while True:
-            choice = input("Choose an ability to use (enter the number): ").strip()
+            choice = input("Select an ability(Type its number or 'i' for info): ").strip().lower()
 
-            if choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
+            if choice == "i":
+                # Print info for each ability
+                for i, ability in enumerate(self.abilities):
+                    print(f"\n{i + 1}. {ability.name}:")
+                    ability.print_info()
+                print("\n")
+
+            elif choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
                 # Get the ability and use it on the target
                 ability = self.abilities[int(choice) - 1]
 
@@ -57,7 +64,7 @@ class Monster():
                     break
                 
             else:
-                choice = input("Invalid input. Please enter a valid number: ")
+                choice = input("Invalid input. Please try again. ")
     
     def random_attack(self, target):
         while True:

@@ -12,8 +12,6 @@ time.sleep(2)
 print("Each player needs 3 monsters to start battling.")
 time.sleep(2)
 
-battle_funcs.list_all_monsters() # Print the list of available monsters for the player to choose from
-
 player_monsters = []
 enemy_monsters = []
 
