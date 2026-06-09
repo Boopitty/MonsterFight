@@ -13,9 +13,9 @@ class TestBattleFuncs(unittest.TestCase):
         self.monster_team = [self.dragon, self.golem, self.unicorn]
         self.active_monster = self.monster_team[0]
     
-    def test_print_monster_base_stats(self):
-        print("Testing print monster base stats function...")
-        battle_funcs.print_monster_base_stats(self.dragon)  # This should print the base stats of the dragon
+    def test_print_monster_info(self):
+        print("Testing print monster info function...")
+        battle_funcs.print_monster_info(self.dragon)  # This should print the info of the dragon
         
     def test_print_monster_current_stats(self):
         print("Testing print monster current stats function...")
