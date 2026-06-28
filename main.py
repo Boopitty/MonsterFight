@@ -17,7 +17,7 @@ enemy_monsters = []
 battle_funcs.player_monster_selection(player_monsters) # Player selects their monsters manually
 time.sleep(2)
 
-print("Now, the enemy is choosing their monsters...")
+print("\nNow, the enemy is choosing their monsters...")
 battle_funcs.enemy_monster_selection(enemy_monsters) # Enemy selects their monsters randomly
 time.sleep(2)
 
@@ -25,7 +25,7 @@ time.sleep(2)
 active_friendly = player_monsters[0]
 active_enemy = enemy_monsters[0]
 
-print("Now that you have your monsters, you can start battling!")
+print("\nNow that you have your monsters, you can start battling!")
 time.sleep(2)
 print(f"Your active monster is {active_friendly.name}.\n"
       f"The enemy's active monster is {active_enemy.name}.")
