@@ -1,5 +1,5 @@
-import internal.structure.monsters as monsters
-import internal.combat.info as info
+import game.internal.structure.monsters as monsters
+import game.internal.combat.info as info
 import random
 import time
     

@@ -1,6 +1,6 @@
-import internal.structure.monsters as monsters
-import internal.combat.info as info
-import internal.combat.switch as switch
+import game.internal.structure.monsters as monsters
+import game.internal.combat.info as info
+import game.internal.combat.switch as switch
 import unittest
 from unittest.mock import patch
 

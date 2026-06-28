@@ -1,6 +1,6 @@
 import random
 import time
-import internal.combat.selection as selection, internal.combat.switch as switch, internal.combat.action as action
+import game.internal.combat.selection as selection, game.internal.combat.switch as switch, game.internal.combat.action as action
 
 # This function allows the player to select 3 monsters from the available list
 

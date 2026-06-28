@@ -1,4 +1,4 @@
-import internal.structure.skills as skills
+import game.internal.structure.skills as skills
 import time
 
 class Monster():

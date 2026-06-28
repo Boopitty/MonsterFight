@@ -1,6 +1,7 @@
 venv/
-__pychache__/
-tests/__pycache__/
 *.pyc
-internal/combat/__pycache__
-internal/structure/__pycache__
+__pychache__
+game/__pychache__/
+game/tests/__pycache__/
+game/internal/combat/__pycache__
+game/internal/structure/__pycache__

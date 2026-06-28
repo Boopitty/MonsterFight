@@ -1,5 +1,5 @@
 import time
-import internal.combat.attack as attack, internal.combat.info as info, internal.combat.switch as switch
+import game.internal.combat.attack as attack, game.internal.combat.info as info, game.internal.combat.switch as switch
 
 def player_action(friendly, enemy, player_monsters):
     if not friendly.alive:

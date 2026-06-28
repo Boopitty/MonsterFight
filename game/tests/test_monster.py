@@ -1,4 +1,4 @@
-import internal.structure.monsters as monsters
+import game.internal.structure.monsters as monsters
 import unittest
 
 class TestMonster(unittest.TestCase):
