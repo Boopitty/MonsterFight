@@ -1,21 +1,21 @@
-import battle_funcs
+import internal.structure.monsters as monsters
+import internal.combat.info as info
+import internal.combat.switch as switch
 import unittest
 from unittest.mock import patch
-from monster import Dragon, Golem, Unicorn, Automaton, Slime, Phoenix
-
 
 class TestBattleFuncs(unittest.TestCase):
     def setUp(self):
         print("Setting up tests for Battle Functions...")
-        self.dragon = Dragon()
-        self.golem = Golem()
-        self.unicorn = Unicorn()
+        self.dragon = monsters.Dragon()
+        self.golem = monsters.Golem()
+        self.unicorn = monsters.Unicorn()
         self.monster_team = [self.dragon, self.golem, self.unicorn]
         self.active_monster = self.monster_team[0]
     
     def test_print_monster_info(self):
         print("Testing print monster info function...")
-        battle_funcs.print_monster_info(self.dragon)  # This should print the info of the dragon
+        info.print_monster_info(self.dragon)  # This should print the info of the dragon
         
     def test_print_monster_current_stats(self):
         print("Testing print monster current stats function...")
@@ -24,7 +24,7 @@ class TestBattleFuncs(unittest.TestCase):
         self.dragon.durability = 3
         self.dragon.spirit = 12
         self.dragon.speed = 1
-        battle_funcs.print_monster_current_stats(self.dragon)  # This should print the current stats of the dragon
+        info.print_monster_current_stats(self.dragon)  # This should print the current stats of the dragon
 
         # Restore the dragon's stats for further tests
         self.dragon.health = self.dragon.base_health
@@ -36,18 +36,18 @@ class TestBattleFuncs(unittest.TestCase):
         print("Testing player switch active monster function...")
         # Simulate user input for switching active monster
         with patch('builtins.input', side_effect=['2']):
-            new_active = battle_funcs.player_switch_active_monster(self.active_monster, self.monster_team)
+            new_active = switch.player_switch_active_monster(self.active_monster, self.monster_team)
             self.assertEqual(new_active, self.golem)
 
         # Test switching to a dead monster
         self.golem.alive = False  # Update alive status
         with patch('builtins.input', side_effect=['2', '3']):
-            new_active = battle_funcs.player_switch_active_monster(self.active_monster, self.monster_team)
+            new_active = switch.player_switch_active_monster(self.active_monster, self.monster_team)
             self.assertEqual(new_active, self.unicorn)
         self.golem.alive = True  # Reset alive status for further tests
     
     def test_enemy_switch_active_monster(self):
         print("Testing enemy switch active monster function...")
-        new_active = battle_funcs.enemy_switch_active_monster(self.active_monster, self.monster_team)
+        new_active = switch.enemy_switch_active_monster(self.active_monster, self.monster_team)
         self.assertIn(new_active, self.monster_team)
         self.assertNotEqual(new_active, self.active_monster)

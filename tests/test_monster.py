@@ -1,12 +1,12 @@
-import monster
+import internal.structure.monsters as monsters
 import unittest
 
 class TestMonster(unittest.TestCase):
 
     def setUp(self):
         print("Setting up tests for Monster class...")
-        self.dragon = monster.Dragon()
-        self.golem = monster.Golem()
+        self.dragon = monsters.Dragon()
+        self.golem = monsters.Golem()
     
     def test_print_summary(self):
         print("Testing print summary function...")

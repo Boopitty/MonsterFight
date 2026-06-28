@@ -2,3 +2,5 @@ venv/
 __pychache__/
 tests/__pycache__/
 *.pyc
+internal/combat/__pycache__
+internal/structure/__pycache__
