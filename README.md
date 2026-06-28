@@ -7,12 +7,29 @@ I believe this took about 20 to 30 hours to make over the course of a week, alth
 I got to add most of the features I was planning on adding in that time. At the time of writing, I want to add more attacks, include passive abilities, and improve the printing layout a bit.
 I wasn't too concerned with balancing the stats of the monsters and abilities I for the sake of time, and the damage calculation was also kept simple.
 
+## Setup
+
+1. Install Python 3.12 from [python.org](https://www.python.org/downloads/)
+2. Verify installation:
+
+```bash
+python --version
+```
+
+3. Create virtual environment:
+
+```bash
+python -m venv .venv
+```
+
 ## How to play
-activate virtual environment in terminal before playing:
+```bash
+# activate virtual environment in terminal before playing:
 source venv/bin/activate
 
-Run main.py to start playing:
+# run main.py to start playing:
 python3 main.py
+```
 
 After that, follow the prompts to choose your team and begin fighting!
 The enemy will pick a random team, and pick their attacks randomly, good luck!
