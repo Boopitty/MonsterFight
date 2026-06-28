@@ -1,6 +1,5 @@
 from skills import FireBreath, ClawSwipe, TailWhip, MagicBolt, Slam, Splat, Tackle, Heal, Overdrive, Barrier
 import time
-import random
 
 class Monster():
 
@@ -20,79 +19,6 @@ class Monster():
 
         self.alive = True
         self.abilities = []
-
-    def attack(self, target):
-        # Select an ability to use and call other functions to calculate damage
-        print(f"{self.name} has the following abilities:")
-        for i, ability in enumerate(self.abilities):
-            print(f"  {i + 1}. {ability.name}")
-        
-        # Get user input for which ability to use
-        while True:
-            choice = input("Select an ability(Type its number or 'i' for info): ").strip().lower()
-
-            if choice == "i":
-                # Print info for each ability
-                for i, ability in enumerate(self.abilities):
-                    print(f"\n{i + 1}. {ability.name}:")
-                    ability.print_info()
-                print("\n")
-
-            elif choice.isdigit() and 1 <= int(choice) <= len(self.abilities):
-                # Get the ability and use it on the target
-                ability = self.abilities[int(choice) - 1]
-
-                if ability.is_available(self.name):
-                    time.sleep(2)
-                    match ability.SkillType.name:
-
-                        case "ATTACK":
-                            damage = ability.use(user = self, target = target)
-                            time.sleep(2)
-                            target.take_damage(damage)
-                            time.sleep(2)
-
-                        case "HEAL":
-                            heal_amount = ability.use(user = self)
-                            self.heal(heal_amount)
-                            time.sleep(2)
-
-                        case "UTILITY":
-                            # Utility skills do not affect target health
-                            ability.use(user = self, target = target)
-                            time.sleep(2)
-                    break
-                
-            else:
-                choice = input("Invalid input. Please try again. ")
-    
-    def random_attack(self, target):
-        while True:
-            # Pick a random attack.
-            ability = random.choice(self.abilities)
-
-            # If the attack chosen is on cooldown, pick again until one with no cooldown if found
-            # All monsters should have a move with no cooldown to prevent infinite looping.
-            if ability.is_available():
-                print(f"{self.name} uses {ability.name}!")
-                time.sleep(2)
-
-                match ability.SkillType.name:
-                    case "ATTACK":
-                        damage = ability.use(user = self, target = target)
-                        time.sleep(2)
-                        target.take_damage(damage)
-
-                    case "HEAL":
-                        heal_amount = ability.use(user = self)
-                        self.heal(heal_amount)
-                        time.sleep(2)
-
-                    case "UTILITY":
-                        # Utility skills do not affect target health
-                        ability.use(user = self, target = target)
-                        time.sleep(2)
-                break
     
     def get_ability(self, index):
         if 0 <= index < len(self.abilities):
